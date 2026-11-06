@@ -1,4 +1,14 @@
 {
-    "model_config": {},
-    "training_config": {}
+    "model_config": {
+        "hidden_channels": 16,
+        "num_layers": 2,
+        "dropout": 0.5
+    },
+    "training_config": {
+        "optimizer": "adam",
+        "optimizer_args": {
+            "lr": 0.01,
+            "weight_decay":5e-4
+        }
+    }
 }

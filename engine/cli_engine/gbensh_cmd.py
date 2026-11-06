@@ -52,10 +52,10 @@ class GBensh(Cmd):
         if args.seed is not None:
             seed = args.seed
         else:
-            from engine.training_engine.utils.seed_gen import generate_seeds
+            from engine.training_engine.utils.seed_utils import generate_seeds
             seed_schedule = generate_seeds()
             seed = seed_schedule[args.seed_index]
 
-        from engine.training_engine.training.run_planted_seed import run_planted_seed
+        from engine.training_engine.training.commands.run_planted_seed import run_planted_seed
 
         run_planted_seed(model_str=model, dataset_str=dataset, seed=seed, training_device=device)

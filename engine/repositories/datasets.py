@@ -1,34 +1,36 @@
-from engine.training_engine.dataset_loaders.cora import load_cora
+from engine.training_engine.dataset_bundlers.cora import load_cora
 
 DATASETS = {
     'cora': {
         'task': 'node',
-        'metric': 'Accuracy',
-        'loader': load_cora
+        'metric': "accuracy",
+        'loader': load_cora,
+        'trainer': "full_batch_node_trainer",
+        'default_loss': "cross_entropy",
     },
     'pubmed': {
         'task': 'node',
-        'metric': 'Accuracy'
+        'metric': "accuracy"
     },
     'ogbn-arxiv': {
         'task': 'node',
-        'metric': 'Accuracy'
+        'metric': "accuracy"
     },
     'ogbn-products': {
         'task': 'node',
-        'metric': 'Accuracy'
+        'metric': "accuracy"
     },
     'ogbn-papers100M': {
         'task': 'node',
-        'metric': 'Accuracy'
+        'metric': "accuracy"
     },
     'mutag': {
         'task': 'graph',
-        'metric': 'Accuracy'
+        'metric': "accuracy"
     },
     'collab': {
         'task': 'graph',
-        'metric': 'Accuracy'
+        'metric': "accuracy"
     },
     'ogbg-molhiv': {
         'task': 'graph',
