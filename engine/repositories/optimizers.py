@@ -1,7 +1,23 @@
-import torch.optim
+def adam(parameters, **kwargs):
+    from torch.optim import Adam
+
+    return Adam(parameters, **kwargs)
+
+
+def adamw(parameters, **kwargs):
+    from torch.optim import AdamW
+
+    return AdamW(parameters, **kwargs)
+
+
+def sgd(parameters, **kwargs):
+    from torch.optim import SGD
+
+    return SGD(parameters, **kwargs)
+
 
 OPTIMIZERS = {
-    'adam': torch.optim.Adam,
-    'adamw': torch.optim.AdamW,
-    'sgd': torch.optim.SGD
+    'adam': adam,
+    'adamw': adamw,
+    'sgd': sgd,
 }

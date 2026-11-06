@@ -1,3 +1,4 @@
+import shlex
 from cmd import Cmd
 
 
@@ -14,48 +15,41 @@ class GBensh(Cmd):
             raise
 
         except Exception as exc:
-            print(f"Error: {exc}")
+            self.stdout.write(f"Error: {exc}\n")
             return False
 
     def do_quit(self, arg):
         """Politely exiting the program."""
-        print("Thank you for using GBensh. Until next time!")
+        self.stdout.write("Thank you for using GBensh. Until next time!\n")
         return True
 
     do_q = do_quit
     do_EOF = do_quit
 
     def do_plant(self, arg):
-        """Runs a single model on a single dataset with a single seed."""
+        """Run one model on one dataset; use 'plant --help' for options."""
 
         from engine.cli_engine.parsers.plant_parser import parse_planting_args
-
 
         parser = parse_planting_args()
 
         try:
-            import shlex
             args = parser.parse_args(shlex.split(arg))
         except SystemExit:
             return
 
-        model, dataset, device = args.model, args.dataset, args.device
-
-        from engine.repositories.models import MODELS
-        from engine.repositories.datasets import DATASETS
-
-        if DATASETS[dataset]['task'] not in MODELS[model]['task']:
-            print(f"Model {model.upper()} incompatible or not yet implemented for {dataset.upper()} task.")
-            return
-
-        
-        if args.seed is not None:
-            seed = args.seed
-        else:
-            from engine.training_engine.utils.seed_utils import generate_seeds
-            seed_schedule = generate_seeds()
-            seed = seed_schedule[args.seed_index]
-
         from engine.training_engine.training.commands.run_planted_seed import run_planted_seed
 
-        run_planted_seed(model_str=model, dataset_str=dataset, seed=seed, training_device=device)
+        result = run_planted_seed(
+            model_str=args.model,
+            dataset_str=args.dataset,
+            seed=args.seed,
+            seed_index=args.seed_index,
+            training_device=args.device,
+        )
+        self.stdout.write(
+            f"{result.model.upper()} on {result.dataset.upper()} | "
+            f"seed={result.seed} | device={result.device} | "
+            f"test {result.metric}={result.test_metric:.4f} | "
+            f"test loss={result.test_loss:.4f}\n"
+        )
