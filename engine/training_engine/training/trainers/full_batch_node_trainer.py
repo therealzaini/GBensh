@@ -3,7 +3,6 @@ from torch import nn
 
 from engine.training_engine.training.dataset_bundle import DatasetBundle
 
-from engine.training_engine.config.config import EPOCHS
 
 def _forward(model: nn.Module, data) -> torch.Tensor:
 
@@ -28,8 +27,12 @@ def full_batch_node_trainer(
         optimizer: torch.optim.Optimizer,
         loss_function,
         metric_function,
-        device: torch.device
+        device: torch.device,
+        epochs: int,
 ) -> dict:
+
+    if type(epochs) is not int or epochs < 1:
+        raise ValueError("epochs must be a positive integer.")
 
     data = bundle.data.to(device)
 
@@ -44,7 +47,7 @@ def full_batch_node_trainer(
 
     history = []
 
-    for epoch in range(1, EPOCHS + 1):
+    for epoch in range(1, epochs + 1):
 
 
         model.train()

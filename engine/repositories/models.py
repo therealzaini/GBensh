@@ -1,9 +1,15 @@
 from engine.paths import MODELS_CONFIG_DIR
-from engine.training_engine.models.gcn import GCN
+
+
+def build_gcn(**kwargs):
+    """Load the model implementation only when an experiment needs it."""
+    from engine.training_engine.models.gcn import GCN
+
+    return GCN(**kwargs)
 
 MODELS = {
     'gcn': {
-        'object': GCN,
+        'object': build_gcn,
         'task': ['node'],
         'config_dir': MODELS_CONFIG_DIR / "gcn"
     },

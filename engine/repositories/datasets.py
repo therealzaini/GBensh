@@ -1,4 +1,9 @@
-from engine.training_engine.dataset_bundlers.cora import load_cora
+def load_cora(root):
+    """Defer importing PyG until the dataset is requested."""
+    from engine.training_engine.dataset_bundlers.cora import load_cora as loader
+
+    return loader(root)
+
 
 DATASETS = {
     'cora': {

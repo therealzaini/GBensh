@@ -34,3 +34,6 @@ py-modules = ["gbensh"]
 [tool.setuptools.packages.find]
 include = ["engine*"]
 
+[tool.setuptools.package-data]
+engine = ["training_engine/config/*/*.json"]
+
